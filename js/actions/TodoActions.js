@@ -4,6 +4,17 @@ var jQuery = require('jquery');
 
 var TodoActions = {
     create: function(todoObj) {
+        // jQuery.ajax({
+        //     type: "POST",
+        //     url: 'http://mitch-api.herokuapp.com/todos',
+        //     data: JSON.stringify(todoObj),
+        //     success: success,
+        //     dataType: 'application/json'
+        // });
+        // function success(data) {
+        //     console.log('server response');
+        //     console.log(data);
+        // }
         AppDispatcher.dispatch({
             actionType: 'TODO_CREATE',
             todoObj: todoObj
@@ -14,10 +25,11 @@ var TodoActions = {
         
         var _this = this;
         jQuery.getJSON('http://mitch-api.herokuapp.com/todos', function(data) {
-             
-            for (var i = 0; i < data.todos.length; i++) {
-                _this.create(data.todos[i]);
-            }
+            var todoArray = data.todos;
+            AppDispatcher.dispatch({
+                actionType: 'TODO_FETCH',
+                todoArray: todoArray
+            });     
         });
     },
 

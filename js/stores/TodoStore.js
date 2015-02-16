@@ -105,12 +105,15 @@ AppDispatcher.register(function(action) {
             TodoStore.emitChange();
             break;
 
-        case 'TODOS_FETCHED':
-            var todos = action.todosArray;
-            for(var i; i < todos.length; i++ ) {
+        case 'TODO_FETCH':
+            var todos = action.todoArray;
+            
+            for (var i = 0; i < todos.length; i++ ) {
+                
                 create(todos[i]);
             }
-            console.log(_todos);
+            
+            TodoStore.emitChange();
             break;
     }
 });

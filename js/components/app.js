@@ -1,5 +1,6 @@
 var React = require('react');
 var TodoList = require('./todolist');
+var Header = require('./Header');
 var TodoStore = require('../stores/TodoStore');
 
 
@@ -29,8 +30,11 @@ var App = React.createClass({
         render:function() {
             allTodos = this.state;
             return (
-                    <TodoList allTodos={allTodos} />
-                )
+                    <div>
+                        <Header />
+                        <TodoList allTodos={this.state} />
+                    </div>
+                 )
         },
         _onChange: function() {
             this.setState(TodoStore.getAll());
