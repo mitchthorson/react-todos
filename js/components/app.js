@@ -1,5 +1,8 @@
 var React = require('react');
 var TodoList = require('./todolist');
+var TodoStore = require('../stores/TodoStore');
+
+
 
 var tempTodos = [
     {
@@ -15,13 +18,22 @@ var tempTodos = [
 ]
 
 var App = React.createClass({
-       
+
+        getInitialState: function() {
+            return TodoStore.getAll();
+        },
+        componentDidMount: function() {
+            TodoStore.addChangeListener(this._onChange);
+        },
         
         render:function() {
-            allTodos = tempTodos;
+            allTodos = this.state;
             return (
                     <TodoList allTodos={allTodos} />
                 )
+        },
+        _onChange: function() {
+            this.setState(TodoStore.getAll());
         }
     });
 
