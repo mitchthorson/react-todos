@@ -4,17 +4,24 @@ var jQuery = require('jquery');
 
 var TodoActions = {
     create: function(todoObj) {
-        // jQuery.ajax({
-        //     type: "POST",
-        //     url: 'http://mitch-api.herokuapp.com/todos',
-        //     data: JSON.stringify(todoObj),
-        //     success: success,
-        //     dataType: 'application/json'
-        // });
-        // function success(data) {
-        //     console.log('server response');
-        //     console.log(data);
-        // }
+        jQuery.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: 'http://mitch-api.herokuapp.com/todos',
+            processData: false,
+            data: JSON.stringify(todoObj),
+            success: success,
+            dataType: "json",
+            error: error
+        });
+        function error(request, status) {
+            console.log(status);
+            console.log(request);
+        }
+        function success(data) {
+            console.log('server response');
+            console.log(data);
+        }
         AppDispatcher.dispatch({
             actionType: 'TODO_CREATE',
             todoObj: todoObj
