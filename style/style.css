@@ -9,3 +9,12 @@
 .editing .input-group .form-control {
     display: inline-block;
 }
+
+.list-group-item .form-control {
+    display: inline !important;
+    width: auto;
+}
+
+.list-group-item .item-delete-button {
+    float: right;
+}

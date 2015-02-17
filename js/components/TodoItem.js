@@ -37,9 +37,10 @@ var TodoItem = React.createClass({
                       <label onDoubleClick={this._onDoubleClick}>
                         {todo.todo_name}
                       </label>
-                      <button className="destroy btn btn-danger" onClick={this._onDestroyClick}>Delete</button>
+                      {input}
+                      <button className="destroy btn btn-danger btn-sm item-delete-button" onClick={this._onDestroyClick}>Delete</button>
                     </div>
-                    {input} 
+                     
                      </li>
                 )
         },
