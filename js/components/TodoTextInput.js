@@ -10,16 +10,21 @@ var TodoTextInput = React.createClass({
     },
     render: function() {
         return (
-            <input
-                className={this.props.className}
-                id={this.props.id}
-                placeholder={this.props.placeholder}
-                onBlur={this._save}
-                onChange={this._onChange}
-                onKeyDown={this._onKeyDown}
-                value={this.state.value}
-                autoFocus={true}
-            />
+            <div className='input-group'>
+                <input
+                    className={this.props.className + ' form-control'}
+                    id={this.props.id}
+                    placeholder={this.props.placeholder}
+                    onBlur={this._save}
+                    onChange={this._onChange}
+                    onKeyDown={this._onKeyDown}
+                    value={this.state.value}
+                    autoFocus={true}
+                />
+                <span className="input-group-btn">
+                    <button className="btn btn-success" type="button" onClick={this._save}>Add</button>
+                </span>
+            </div>
         );
     },
     _save: function() {

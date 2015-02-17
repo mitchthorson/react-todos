@@ -5,8 +5,10 @@ var TodoTextInput = require('./TodoTextInput');
 Header = React.createClass({
     render: function() {
         return (
-            <header id='header'>
-                <h1>Todos</h1>
+            <header id='header' className='todo-header'>
+                <div className='page-header'>
+                    <h1>ReactTodos</h1>
+                </div>
                 <TodoTextInput
                     id='new-todo'
                     placeholder='What needs to be done?'

@@ -30,7 +30,7 @@ var App = React.createClass({
         render:function() {
             allTodos = this.state;
             return (
-                    <div>
+                    <div className='container-fluid'>
                         <Header />
                         <TodoList allTodos={this.state} />
                     </div>

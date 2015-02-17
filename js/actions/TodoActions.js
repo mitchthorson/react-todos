@@ -19,13 +19,13 @@ var TodoActions = {
             console.log(request);
         }
         function success(data) {
-            console.log('server response');
-            console.log(data);
+            
+             AppDispatcher.dispatch({
+                actionType: 'TODO_CREATE',
+                todoObj: data
+            });
         }
-        AppDispatcher.dispatch({
-            actionType: 'TODO_CREATE',
-            todoObj: todoObj
-        });
+       
     },
 
     fetch: function() {
