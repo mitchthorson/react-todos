@@ -18,7 +18,7 @@ var TodoItem = React.createClass({
                 <TodoTextInput
                   className="edit"
                   onSave={this._onSave}
-                  value={todo.text}
+                  value={todo.todo_name}
                 />;
             }
             return (
@@ -52,7 +52,12 @@ var TodoItem = React.createClass({
           },
 
            _onSave: function(text) {
-                TodoActions.updateName(this.props.todo.id, text);
+                console.log(this.props.todo.todo_is_done);
+                TodoActions.updateName({
+                    id: this.props.todo.id, 
+                    todo_name: text, 
+                    todo_is_done: this.props.todo.todo_is_done
+                });
                 this.setState({isEditing: false});
           },
 
