@@ -1,39 +1,32 @@
 var React = require('react');
 var TodoList = require('./todolist');
+var Header = require('./Header');
 var TodoStore = require('../stores/TodoStore');
 
 
 
-var tempTodos = [
-    {
-        'todo_name': 'Learn React',
-        'todo_is_done': false,
-        'id': 1
-    },
-    {
-        'todo_name': 'Learn Flux',
-        'todo_is_done': false,
-        'id': 2
-    }
-]
-
 var App = React.createClass({
 
         getInitialState: function() {
-            return TodoStore.getAll();
+            return {
+                todos: TodoStore.getAll()
+            };
         },
         componentDidMount: function() {
             TodoStore.addChangeListener(this._onChange);
         },
         
         render:function() {
-            allTodos = this.state;
+            allTodos = this.state.todos;
             return (
-                    <TodoList allTodos={allTodos} />
-                )
+                    <div className='container-fluid'>
+                        <Header />
+                        <TodoList allTodos={allTodos} />
+                    </div>
+                 )
         },
         _onChange: function() {
-            this.setState(TodoStore.getAll());
+            this.setState({todos: TodoStore.getAll()});
         }
     });
 

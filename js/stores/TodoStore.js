@@ -11,7 +11,7 @@ function create(todoObj) {
   // server-side storage.
   // Using the current timestamp + random number in place of a real id.
   var id = todoObj.id
-  console.log(todoObj);
+  
   _todos[id] = {
     id: id,
     todo_is_done: todoObj.todo_is_done,
@@ -30,7 +30,10 @@ function updateAll(updates) {
 }
 
 function destroy(id) {
+    
+
   delete _todos[id];
+  
 }
 
 function destroyCompleted() {
@@ -93,9 +96,9 @@ AppDispatcher.register(function(action) {
             break;
 
         case 'TODO_UPDATE_NAME':
-            var name = action.todoObj.todo_name;
+            var name = action.todo_name;
             if (name !== '') {
-                update(action.todoObj.id, {todo_name: name});
+                update(action.id, {todo_name: name});
             }
             TodoStore.emitChange();
             break;
@@ -105,12 +108,15 @@ AppDispatcher.register(function(action) {
             TodoStore.emitChange();
             break;
 
-        case 'TODOS_FETCHED':
-            var todos = action.todosArray;
-            for(var i; i < todos.length; i++ ) {
+        case 'TODO_FETCH':
+            var todos = action.todoArray;
+            
+            for (var i = 0; i < todos.length; i++ ) {
+                
                 create(todos[i]);
             }
-            console.log(_todos);
+            
+            TodoStore.emitChange();
             break;
     }
 });
