@@ -1,3 +1,11 @@
 .todo-header {
     margin-bottom: 2em;
 }
+
+.editing label {
+    display: none;
+}
+
+.editing .input-group .form-control {
+    display: inline-block;
+}

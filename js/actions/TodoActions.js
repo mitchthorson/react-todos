@@ -40,10 +40,11 @@ var TodoActions = {
         });
     },
 
-    updateName: function(todoObj) {
+    updateName: function(id, text) {
         AppDispatcher.dispatch({
             actionType: 'TODO_UPDATE_NAME',
-            todoObj: todoObj
+            id: id,
+            todo_name: text
         });
     },
 
@@ -62,10 +63,22 @@ var TodoActions = {
     },
 
     destroy: function(todoObj) {
-        AppDispatcher.dispatch({
-            actionType: "TODO_DESTROY",
-            todoObj: todoObj
+         jQuery.ajax({
+            type: "DELETE",
+            url: 'http://mitch-api.herokuapp.com/todos/' + todoObj.id,
+            success: success,
+            error: error
         });
+         function success(r) {
+            AppDispatcher.dispatch({
+                actionType: "TODO_DESTROY",
+                todoObj: r.deleted
+            });
+         }
+         function error(e) {
+            console.log('error');
+         }
+        
     }
 };
 
