@@ -18,3 +18,11 @@
 .list-group-item .item-delete-button {
     float: right;
 }
+
+.list-group-item .completed {
+    
+}
+
+label {
+    margin-left: 20px;
+}

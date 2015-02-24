@@ -23,7 +23,7 @@ var TodoItem = React.createClass({
             }
             return (
                     <li className={cx({
-                        'completed': todo.todo_is_done,
+                        'disabled': todo.todo_is_done,
                         'editing': this.state.isEditing
                     }) + " list-group-item"}>
 
@@ -45,7 +45,8 @@ var TodoItem = React.createClass({
                 )
         },
          _onToggleComplete: function() {
-            TodoActions.toggleComplete(this.props.todo);
+             var todoObj = this.props.todo;
+             TodoActions.toggleComplete(todoObj);
           },
 
           _onDoubleClick: function() {
@@ -53,7 +54,6 @@ var TodoItem = React.createClass({
           },
 
            _onSave: function(text) {
-                console.log(this.props.todo.todo_is_done);
                 TodoActions.updateName({
                     id: this.props.todo.id, 
                     todo_name: text, 
