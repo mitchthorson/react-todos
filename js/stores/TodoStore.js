@@ -86,11 +86,13 @@ AppDispatcher.register(function(action) {
             break;
 
         case 'TODO_UNDO_COMPLETE':
+            console.log('todo undo');
             update(action.todoObj.id, {todo_is_done: false});
             TodoStore.emitChange();
             break;
 
         case 'TODO_COMPLETE':
+            console.log('todo completed');
             update(action.todoObj.id, {todo_is_done: true});
             TodoStore.emitChange();
             break;
