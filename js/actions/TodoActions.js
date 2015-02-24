@@ -40,26 +40,65 @@ var TodoActions = {
         });
     },
 
-    updateName: function(id, text) {
-        AppDispatcher.dispatch({
-            actionType: 'TODO_UPDATE_NAME',
-            id: id,
-            todo_name: text
+    updateName: function(todoObj) {
+
+        jQuery.ajax({
+            type: "PUT",
+            contentType: "application/json",
+            url: 'http://mitch-api.herokuapp.com/todos/' + todoObj.id,
+            processData: false,
+            data: JSON.stringify(todoObj),
+            success: success,
+            dataType: "json",
+            error: error
         });
+        function error(request, status) {
+            console.log(status);
+            console.log(request);
+        }
+        function success(data) {
+            
+             AppDispatcher.dispatch({
+                actionType: 'TODO_UPDATE_NAME',
+                id: todoObj.id,
+                todo_name: todoObj.todo_name
+            });
+        }
+
+        
     },
 
     toggleComplete: function(todoObj) {
-        if (todoObj.todo_is_done) {
-            AppDispatcher.dispatch({
-                actionType: "TODO_UNDO_COMPLETE",
-                todoObj: todoObj
+        var payload = todoObj;
+             payload.todo_is_done = !todoObj.todo_is_done;
+         jQuery.ajax({
+                type: "PUT",
+                contentType: "application/json",
+                url: 'http://mitch-api.herokuapp.com/todos/' + todoObj.id,
+                processData: false,
+                data: JSON.stringify(payload),
+                success: success,
+                dataType: "json",
+                error: error
             });
-        } else {
-            AppDispatcher.dispatch({
-                actionType: "TODO_COMPLETE",
-                todoObj: todoObj
-            });
-        }
+            function error(request, status) {
+                console.log(status);
+                console.log(request);
+            }
+            function success(data) {
+                if (!todoObj.todo_is_done) {
+                     AppDispatcher.dispatch({
+                        actionType: 'TODO_UNDO_COMPLETE',
+                        todoObj: todoObj
+                    });
+                } else {
+                     AppDispatcher.dispatch({
+                        actionType: "TODO_COMPLETE",
+                        todoObj: todoObj
+                     });
+                }
+            }
+
     },
 
     destroy: function(todoObj) {

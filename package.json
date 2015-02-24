@@ -18,7 +18,8 @@
     "grunt-browser-sync": "^2.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "gulp": "^3.8.11",
-    "jest-cli": "~0.1.17",
+    "jest-cli": "^0.4.0",
+    "react-tools": "^0.12.2",
     "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
     "watchify": "^2.1.1"
@@ -45,6 +46,10 @@
     ]
   },
   "jest": {
-    "rootDir": "./js"
+    "rootDir": "./js",
+    "scriptPreprocessor": "<rootDir>/preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "react"
+    ]
   }
 }

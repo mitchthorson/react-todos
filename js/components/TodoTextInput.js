@@ -10,7 +10,6 @@ var TodoTextInput = React.createClass({
     },
     render: function() {
         return (
-            <div className='input-group'>
                 <input
                     className={this.props.className + ' form-control'}
                     id={this.props.id}
@@ -21,10 +20,7 @@ var TodoTextInput = React.createClass({
                     value={this.state.value}
                     autoFocus={true}
                 />
-                <span className="input-group-btn">
-                    <button className="btn btn-success" type="button" onClick={this._save}>Add</button>
-                </span>
-            </div>
+                
         );
     },
     _save: function() {

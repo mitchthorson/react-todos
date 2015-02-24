@@ -18,12 +18,12 @@ var TodoItem = React.createClass({
                 <TodoTextInput
                   className="edit"
                   onSave={this._onSave}
-                  value={todo.text}
+                  value={todo.todo_name}
                 />;
             }
             return (
                     <li className={cx({
-                        'completed': todo.todo_is_done,
+                        'disabled': todo.todo_is_done,
                         'editing': this.state.isEditing
                     }) + " list-group-item"}>
 
@@ -37,14 +37,16 @@ var TodoItem = React.createClass({
                       <label onDoubleClick={this._onDoubleClick}>
                         {todo.todo_name}
                       </label>
-                      <button className="destroy btn btn-danger" onClick={this._onDestroyClick}>Delete</button>
+                      {input}
+                      <button className="destroy btn btn-danger btn-sm item-delete-button" onClick={this._onDestroyClick}>Delete</button>
                     </div>
-                    {input} 
+                     
                      </li>
                 )
         },
          _onToggleComplete: function() {
-            TodoActions.toggleComplete(this.props.todo);
+             var todoObj = this.props.todo;
+             TodoActions.toggleComplete(todoObj);
           },
 
           _onDoubleClick: function() {
@@ -52,7 +54,11 @@ var TodoItem = React.createClass({
           },
 
            _onSave: function(text) {
-                TodoActions.updateName(this.props.todo.id, text);
+                TodoActions.updateName({
+                    id: this.props.todo.id, 
+                    todo_name: text, 
+                    todo_is_done: this.props.todo.todo_is_done
+                });
                 this.setState({isEditing: false});
           },
 
