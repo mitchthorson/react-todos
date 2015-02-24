@@ -70,17 +70,36 @@ var TodoActions = {
     },
 
     toggleComplete: function(todoObj) {
-        if (todoObj.todo_is_done) {
-            AppDispatcher.dispatch({
-                actionType: "TODO_UNDO_COMPLETE",
-                todoObj: todoObj
+        var payload = todoObj;
+             payload.todo_is_done = !todoObj.todo_is_done;
+         jQuery.ajax({
+                type: "PUT",
+                contentType: "application/json",
+                url: 'http://mitch-api.herokuapp.com/todos/' + todoObj.id,
+                processData: false,
+                data: JSON.stringify(payload),
+                success: success,
+                dataType: "json",
+                error: error
             });
-        } else {
-            AppDispatcher.dispatch({
-                actionType: "TODO_COMPLETE",
-                todoObj: todoObj
-            });
-        }
+            function error(request, status) {
+                console.log(status);
+                console.log(request);
+            }
+            function success(data) {
+                if (!todoObj.todo_is_done) {
+                     AppDispatcher.dispatch({
+                        actionType: 'TODO_UNDO_COMPLETE',
+                        todoObj: todoObj
+                    });
+                } else {
+                     AppDispatcher.dispatch({
+                        actionType: "TODO_COMPLETE",
+                        todoObj: todoObj
+                     });
+                }
+            }
+
     },
 
     destroy: function(todoObj) {
@@ -104,6 +123,7 @@ var TodoActions = {
 };
 
 module.exports = TodoActions;
+
 },{"../dispatcher/dispatcher":"/Users/mthorson/github/2015/react-todos/js/dispatcher/dispatcher.js","jquery":"/Users/mthorson/github/2015/react-todos/node_modules/jquery/dist/jquery.js"}],"/Users/mthorson/github/2015/react-todos/js/app.js":[function(require,module,exports){
 
 var React = require('react');
@@ -176,7 +196,7 @@ var TodoItem = React.createClass({displayName: "TodoItem",
             }
             return (
                     React.createElement("li", {className: cx({
-                        'completed': todo.todo_is_done,
+                        'disabled': todo.todo_is_done,
                         'editing': this.state.isEditing
                     }) + " list-group-item"}, 
 
@@ -198,7 +218,8 @@ var TodoItem = React.createClass({displayName: "TodoItem",
                 )
         },
          _onToggleComplete: function() {
-            TodoActions.toggleComplete(this.props.todo);
+             var todoObj = this.props.todo;
+             TodoActions.toggleComplete(todoObj);
           },
 
           _onDoubleClick: function() {
@@ -206,7 +227,6 @@ var TodoItem = React.createClass({displayName: "TodoItem",
           },
 
            _onSave: function(text) {
-                console.log(this.props.todo.todo_is_done);
                 TodoActions.updateName({
                     id: this.props.todo.id, 
                     todo_name: text, 
@@ -221,6 +241,7 @@ var TodoItem = React.createClass({displayName: "TodoItem",
     });
 
 module.exports = TodoItem;
+
 },{"../actions/TodoActions":"/Users/mthorson/github/2015/react-todos/js/actions/TodoActions.js","./TodoTextInput":"/Users/mthorson/github/2015/react-todos/js/components/TodoTextInput.js","react":"/Users/mthorson/github/2015/react-todos/node_modules/react/react.js","react/lib/cx":"/Users/mthorson/github/2015/react-todos/node_modules/react/lib/cx.js"}],"/Users/mthorson/github/2015/react-todos/js/components/TodoTextInput.js":[function(require,module,exports){
 var React = require('react');
 
@@ -248,7 +269,6 @@ var TodoTextInput = React.createClass({displayName: "TodoTextInput",
         );
     },
     _save: function() {
-        console.log(this.props.onSave);
         this.props.onSave(this.state.value);
         this.setState({
             value: ''
@@ -270,6 +290,7 @@ var TodoTextInput = React.createClass({displayName: "TodoTextInput",
 });
 
 module.exports = TodoTextInput;
+
 },{"react":"/Users/mthorson/github/2015/react-todos/node_modules/react/react.js"}],"/Users/mthorson/github/2015/react-todos/js/components/app.js":[function(require,module,exports){
 var React = require('react');
 var TodoList = require('./todolist');
@@ -421,11 +442,13 @@ AppDispatcher.register(function(action) {
             break;
 
         case 'TODO_UNDO_COMPLETE':
+            console.log('todo undo');
             update(action.todoObj.id, {todo_is_done: false});
             TodoStore.emitChange();
             break;
 
         case 'TODO_COMPLETE':
+            console.log('todo completed');
             update(action.todoObj.id, {todo_is_done: true});
             TodoStore.emitChange();
             break;
@@ -457,6 +480,7 @@ AppDispatcher.register(function(action) {
 });
 
 module.exports = TodoStore;
+
 },{"../dispatcher/dispatcher":"/Users/mthorson/github/2015/react-todos/js/dispatcher/dispatcher.js","events":"/Users/mthorson/github/2015/react-todos/node_modules/grunt-browserify/node_modules/browserify/node_modules/events/events.js","object-assign":"/Users/mthorson/github/2015/react-todos/node_modules/object-assign/index.js"}],"/Users/mthorson/github/2015/react-todos/node_modules/flux/index.js":[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
