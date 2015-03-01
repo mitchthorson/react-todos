@@ -19,24 +19,21 @@ var TodoActions = {
             console.log(request);
         }
         function success(data) {
-            
              AppDispatcher.dispatch({
                 actionType: 'TODO_CREATE',
                 todoObj: data
             });
         }
-       
     },
 
     fetch: function() {
-        
         var _this = this;
         jQuery.getJSON('http://mitch-api.herokuapp.com/todos', function(data) {
             var todoArray = data.todos;
             AppDispatcher.dispatch({
                 actionType: 'TODO_FETCH',
                 todoArray: todoArray
-            });     
+            });
         });
     },
 
@@ -57,15 +54,12 @@ var TodoActions = {
             console.log(request);
         }
         function success(data) {
-            
              AppDispatcher.dispatch({
                 actionType: 'TODO_UPDATE_NAME',
                 id: todoObj.id,
                 todo_name: todoObj.todo_name
             });
         }
-
-        
     },
 
     toggleComplete: function(todoObj) {
@@ -117,7 +111,6 @@ var TodoActions = {
          function error(e) {
             console.log('error');
          }
-        
     }
 };
 
